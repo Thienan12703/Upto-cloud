@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.35.0 (9532ceef3)
+  labels:
+    io.kompose.service: productcatalogservice
+  name: productcatalogservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: productcatalogservice
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.35.0 (9532ceef3)
+      labels:
+        io.kompose.service: productcatalogservice
+    spec:
+      containers:
+        - env:
+            - name: DISABLE_PROFILER
+              value: "1"
+            - name: PORT
+              value: "3550"
+          image: productcatalogservice
+          name: productcatalogservice
+      restartPolicy: Always

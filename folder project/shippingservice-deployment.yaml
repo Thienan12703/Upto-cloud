@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.35.0 (9532ceef3)
+  labels:
+    io.kompose.service: shippingservice
+  name: shippingservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: shippingservice
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.35.0 (9532ceef3)
+      labels:
+        io.kompose.service: shippingservice
+    spec:
+      containers:
+        - env:
+            - name: DISABLE_PROFILER
+              value: "1"
+            - name: PORT
+              value: "50051"
+          image: shippingservice
+          name: shippingservice
+      restartPolicy: Always
